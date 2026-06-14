@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8730c">
+<title>예상문제 25선 · 문제+정답 한장</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#eef1f8; --surface:#ffffff; --surface-2:#f6f7fb; --text:#171a26; --muted:#5d6478;
+  --primary:#4f46e5; --primary-soft:#eceafe; --accent:#e8730c; --accent-soft:#fdeede;
+  --ok:#138a5e; --ok-soft:#dcf5ea; --border:#e3e6f0; --shadow:0 1px 2px rgba(20,22,40,.05),0 8px 24px rgba(20,22,40,.06);
+  --maxw:880px;
+}
+:root[data-theme="dark"]{
+  --bg:#0d0f16; --surface:#161a24; --surface-2:#1d212e; --text:#e8eaf2; --muted:#969db4;
+  --primary:#8b93ff; --primary-soft:#23264a; --accent:#ffa24d; --accent-soft:#3a2a17;
+  --ok:#43c995; --ok-soft:#16302a; --border:#272c3a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;
+  letter-spacing:-.01em;font-size:16px;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 84%,transparent);
+  backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--border)}
+.hbar{display:flex;align-items:center;gap:10px;padding:11px 16px;max-width:var(--maxw);margin:0 auto;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;line-height:1.25;margin-right:auto}
+.brand b{font-size:15px;font-weight:800}
+.brand span{font-size:11.5px;color:var(--muted);font-weight:600}
+.iconbtn{height:38px;padding:0 13px;border-radius:11px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text);cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.iconbtn:active{transform:scale(.93)}
+.iconbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.iconbtn.sq{width:38px;padding:0;justify-content:center;font-size:17px}
+
+main{padding:20px 0 70px}
+.intro{background:linear-gradient(135deg,var(--accent) 0%,#d2410a 100%);color:#fff;border-radius:16px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.intro h1{font-size:21px;font-weight:800;margin-bottom:6px}
+.intro p{font-size:13.5px;opacity:.95;font-weight:500}
+.intro .tip{margin-top:11px;background:rgba(255,255,255,.18);padding:8px 12px;border-radius:9px;font-size:12.5px;font-weight:600}
+
+.q{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:13px;
+  box-shadow:var(--shadow);overflow:hidden;break-inside:avoid}
+.qhead{display:flex;align-items:center;gap:9px;padding:14px 16px 0;flex-wrap:wrap}
+.num{width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--accent);
+  font-weight:800;font-size:14px;display:grid;place-items:center;flex-shrink:0}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted)}
+.tag.hot{background:var(--accent-soft);color:var(--accent)}
+.qtext{padding:10px 16px 13px;font-weight:700;font-size:15px;line-height:1.6}
+.ans{margin:0 14px 14px;background:var(--ok-soft);border-radius:11px;padding:13px 15px;font-size:14px;position:relative;transition:.2s}
+.ans .lbl{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--ok);margin-bottom:9px}
+.ans p{margin-bottom:8px}.ans p:last-child{margin-bottom:0}
+.ans ul,.ans ol{margin:5px 0 9px;padding-left:19px}.ans li{margin-bottom:5px}
+.ans b,.ans strong{color:var(--primary);font-weight:800}
+.ans .hl{background:var(--accent-soft);color:var(--accent);font-weight:800;padding:1px 6px;border-radius:6px}
+.ans .tip{background:var(--primary-soft);border-left:3px solid var(--primary);border-radius:8px;padding:8px 11px;margin:8px 0;font-size:13px}
+.tbl{overflow-x:auto;margin:9px 0;border-radius:9px;border:1px solid var(--border)}
+.tbl table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:300px}
+.tbl th,.tbl td{border:1px solid var(--border);padding:6px 9px;text-align:left;vertical-align:top}
+.tbl th{background:var(--surface);font-weight:800;white-space:nowrap}
+
+/* 정답 가리기(셀프테스트) */
+body.hide .ans{filter:blur(6px);cursor:pointer;user-select:none}
+body.hide .ans.reveal{filter:none;cursor:auto;user-select:auto}
+body.hide .ans::after{content:"👆 눌러서 정답 확인";position:absolute;inset:0;display:grid;place-items:center;
+  font-weight:800;color:var(--ok);font-size:13px;letter-spacing:0}
+body.hide .ans.reveal::after{content:none}
+
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0;line-height:1.7}
+
+@media print{
+  :root{--bg:#fff;--surface:#fff;--text:#000;--muted:#444;--border:#bbb;--shadow:none;
+    --ok:#0a6b46;--ok-soft:#eef9f3;--primary:#2a2eb0;--accent:#b8530a;--accent-soft:#fbeada;--primary-soft:#eef}
+  header,.footer,.intro .tip,.noprint{display:none!important}
+  body{font-size:12px}
+  .intro{background:#fff!important;color:#000!important;border:2px solid #000;box-shadow:none;padding:12px 14px}
+  .intro p{opacity:1}
+  .q{box-shadow:none;border:1px solid #999;margin-bottom:8px}
+  body.hide .ans{filter:none!important}
+  body.hide .ans::after{content:none!important}
+  .ans{background:#f4f4f4!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hbar">
+    <div class="brand"><b>📄 기말 예상문제 25선</b><span>문제 + 정답 한 장 보기</span></div>
+    <button class="iconbtn" id="hideBtn">🙈 정답 가리기</button>
+    <button class="iconbtn sq" id="printBtn" title="인쇄/PDF 저장">🖨️</button>
+    <a class="iconbtn sq" href="index.html" title="메인으로" style="text-decoration:none">🏠</a>
+    <button class="iconbtn sq" id="themeBtn" aria-label="테마">🌙</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <h1>기말 예상문제 25선</h1>
+    <p>교수님 배포 예상문제 <b>25문항 전체 + 정답</b>입니다. 이 중 <b>7문항이 변형 출제</b>되니 가장 비중이 큽니다.</p>
+    <div class="tip">🙈 <b>정답 가리기</b>로 셀프테스트 → 정답 영역을 누르면 하나씩 공개 · 🖨️ 버튼으로 인쇄/PDF 저장</div>
+  </div>
+  <div id="list"></div>
+</main>
+
+<div class="footer">📚 도시개발 및 법규 · 예상문제 요약본 — 최종 판단은 원문(법령·강의) 확인</div>
+
+<script src="pastq.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const PASTQ=window.PASTQ||[];
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+
+/* 테마(메인과 공유) */
+const themeBtn=$("#themeBtn");
+function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==="dark"?"☀️":"🌙";LS.set("theme",t);}
+setTheme(LS.get("theme", matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"));
+themeBtn.onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+
+/* 렌더 */
+$("#list").innerHTML=PASTQ.map(q=>`
+  <article class="q">
+    <div class="qhead"><span class="num">${q.n}</span>
+      <div class="tags">${q.topic.split('·').map(t=>`<span class="tag">${t.trim()}</span>`).join("")}${q.star?'<span class="tag hot">🔥 변형주의</span>':''}</div>
+    </div>
+    <div class="qtext">${q.q}</div>
+    <div class="ans"><span class="lbl">✅ 정답</span>${q.a}</div>
+  </article>`).join("");
+
+/* 정답 가리기 */
+const hideBtn=$("#hideBtn");
+function setHide(on){document.body.classList.toggle("hide",on);
+  hideBtn.classList.toggle("on",on);hideBtn.textContent=on?"👁 정답 보이기":"🙈 정답 가리기";
+  if(!on)document.querySelectorAll(".ans.reveal").forEach(a=>a.classList.remove("reveal"));}
+hideBtn.onclick=()=>setHide(!document.body.classList.contains("hide"));
+$("#list").addEventListener("click",e=>{const a=e.target.closest(".ans");
+  if(a&&document.body.classList.contains("hide"))a.classList.add("reveal");});
+
+/* 인쇄 */
+$("#printBtn").onclick=()=>{const was=document.body.classList.contains("hide");setHide(false);setTimeout(()=>window.print(),60);};
+</script>
+</body>
+</html>
