@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#4f46e5">
+<title>도시개발 및 법규 · 기말 총정리</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#eef1f8; --surface:#ffffff; --surface-2:#f6f7fb; --text:#171a26; --muted:#5d6478;
+  --primary:#4f46e5; --primary-soft:#eceafe; --accent:#e8730c; --accent-soft:#fdeede;
+  --ok:#138a5e; --ok-soft:#dcf5ea; --border:#e3e6f0; --shadow:0 1px 2px rgba(20,22,40,.05),0 8px 24px rgba(20,22,40,.06);
+  --r:16px; --maxw:940px;
+}
+:root[data-theme="dark"]{
+  --bg:#0d0f16; --surface:#161a24; --surface-2:#1d212e; --text:#e8eaf2; --muted:#969db4;
+  --primary:#8b93ff; --primary-soft:#23264a; --accent:#ffa24d; --accent-soft:#3a2a17;
+  --ok:#43c995; --ok-soft:#16302a; --border:#272c3a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:Pretendard,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);
+  line-height:1.65;letter-spacing:-.01em;font-size:16px;padding-bottom:env(safe-area-inset-bottom);transition:background .3s,color .3s}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+
+/* ── Header ── */
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--border)}
+.hbar{display:flex;align-items:center;gap:12px;padding:11px 16px;max-width:var(--maxw);margin:0 auto}
+.brand{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.brand b{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{font-size:11.5px;color:var(--muted);font-weight:600}
+.spacer{flex:1}
+.dday{display:flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent);
+  font-weight:800;font-size:12.5px;padding:6px 11px;border-radius:999px;white-space:nowrap}
+.iconbtn{width:38px;height:38px;border-radius:11px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text);cursor:pointer;font-size:17px;display:grid;place-items:center;transition:.15s;flex-shrink:0}
+.iconbtn:active{transform:scale(.92)}
+
+/* ── Tabs ── */
+.tabs{position:sticky;top:61px;z-index:40;background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.tabrow{display:flex;gap:4px;max-width:var(--maxw);margin:0 auto;padding:8px 12px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border:none;
+  background:transparent;color:var(--muted);font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer;
+  border-radius:11px;transition:.18s}
+.tab .ico{font-size:18px}
+.tab.on{color:var(--primary);background:var(--primary-soft)}
+.tab:active{transform:scale(.96)}
+
+main{padding:22px 0 80px}
+.view{display:none;animation:fade .35s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Generic blocks ── */
+.intro{background:linear-gradient(135deg,var(--primary) 0%,#7c3aed 100%);color:#fff;border-radius:var(--r);
+  padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.intro h1{font-size:21px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
+.intro p{font-size:13.5px;opacity:.92;font-weight:500}
+.intro .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.intro .meta span{background:rgba(255,255,255,.18);padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700}
+
+.searchbar{position:relative;margin-bottom:16px}
+.searchbar input{width:100%;padding:13px 16px 13px 44px;border:1px solid var(--border);border-radius:13px;
+  background:var(--surface);color:var(--text);font-family:inherit;font-size:15px;box-shadow:var(--shadow)}
+.searchbar input:focus{outline:2px solid var(--primary);border-color:transparent}
+.searchbar .si{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:17px}
+
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);
+  color:var(--muted);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:.15s;white-space:nowrap}
+.chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+/* ── Concept chapter ── */
+.chapter{margin-bottom:30px;scroll-margin-top:130px}
+.chead{display:flex;align-items:center;gap:11px;margin:0 2px 14px}
+.chead .ce{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;
+  background:var(--primary-soft);flex-shrink:0}
+.chead h2{font-size:19px;font-weight:800}
+.chead small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+
+.numgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px;margin-bottom:15px}
+.numcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:12px 13px;box-shadow:var(--shadow)}
+.numcard .v{font-size:18px;font-weight:800;color:var(--accent);letter-spacing:-.02em}
+.numcard .l{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;line-height:1.4}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;
+  box-shadow:var(--shadow);overflow:hidden}
+.card.hidden{display:none}
+.cq{display:flex;align-items:center;gap:10px;padding:15px 16px;cursor:pointer;user-select:none;font-weight:700;font-size:15px}
+.cq .star{color:var(--accent);flex-shrink:0;font-size:14px}
+.cq .tt{flex:1}
+.cq .ar{color:var(--muted);transition:transform .25s;flex-shrink:0;font-size:13px}
+.card.open .cq .ar{transform:rotate(180deg)}
+.ca{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.card.open .ca{max-height:3000px}
+.ca-in{padding:0 16px 16px;font-size:14.5px;color:var(--text);border-top:1px solid var(--border);padding-top:13px}
+.ca-in p{margin-bottom:9px}.ca-in p:last-child{margin-bottom:0}
+.ca-in ul{margin:6px 0 9px;padding-left:18px}.ca-in li{margin-bottom:5px}
+.ca-in b,.ca-in strong{color:var(--primary);font-weight:800}
+.ca-in .hl{background:var(--accent-soft);color:var(--accent);font-weight:800;padding:1px 6px;border-radius:6px}
+.ca-in .keyrow{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.ca-in .keyrow .k{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:4px 9px;font-size:12.5px;font-weight:700}
+.tbl{overflow-x:auto;margin:10px 0;border-radius:10px;border:1px solid var(--border);-webkit-overflow-scrolling:touch}
+.tbl table{border-collapse:collapse;width:100%;font-size:13px;min-width:340px}
+.tbl th,.tbl td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:var(--surface-2);font-weight:800;white-space:nowrap}
+.note{background:var(--primary-soft);border-radius:10px;padding:10px 13px;font-size:13.5px;margin:9px 0;border-left:3px solid var(--primary)}
+.note b{color:var(--primary)}
+
+/* ── Past questions ── */
+.progwrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px 16px;margin-bottom:16px;box-shadow:var(--shadow)}
+.progwrap .pt{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-weight:700;font-size:14px}
+.progwrap .pt span{color:var(--primary);font-weight:800}
+.bar{height:9px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),#7c3aed);border-radius:999px;transition:width .4s;width:0}
+.preset{display:flex;gap:8px;margin-top:11px}
+.preset button{flex:1;padding:8px;border:1px solid var(--border);border-radius:9px;background:var(--surface-2);
+  color:var(--muted);font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer;transition:.15s}
+.preset button:active{transform:scale(.96)}
+
+.q{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:11px;box-shadow:var(--shadow);overflow:hidden}
+.q.hidden{display:none}
+.q.done{border-color:var(--ok)}
+.qh{display:flex;gap:11px;padding:15px 16px}
+.qn{flex-shrink:0;width:30px;height:30px;border-radius:9px;background:var(--primary-soft);color:var(--primary);
+  font-weight:800;font-size:14px;display:grid;place-items:center}
+.q.done .qn{background:var(--ok-soft);color:var(--ok)}
+.qbody{flex:1;min-width:0}
+.qtags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.qtag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted)}
+.qtag.hot{background:var(--accent-soft);color:var(--accent)}
+.qtext{font-weight:700;font-size:14.5px;line-height:1.6}
+.qact{display:flex;gap:8px;padding:0 16px 14px 57px;flex-wrap:wrap}
+.btn{padding:8px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);
+  font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn.okbtn.on{background:var(--ok);color:#fff;border-color:var(--ok)}
+.ans{max-height:0;overflow:hidden;transition:max-height .4s ease;margin:0 16px;border-radius:0}
+.q.show .ans{max-height:4000px}
+.ans-in{background:var(--surface-2);border-radius:12px;padding:15px 16px;margin-bottom:15px;font-size:14px}
+.ans-in .alabel{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--ok);
+  background:var(--ok-soft);padding:3px 10px;border-radius:7px;margin-bottom:10px}
+.ans-in p{margin-bottom:9px}.ans-in p:last-child{margin-bottom:0}
+.ans-in ul,.ans-in ol{margin:6px 0 10px;padding-left:20px}.ans-in li{margin-bottom:6px}
+.ans-in b,.ans-in strong{color:var(--primary);font-weight:800}
+.ans-in .hl{background:var(--accent-soft);color:var(--accent);font-weight:800;padding:1px 6px;border-radius:6px}
+.ans-in .tip{background:var(--primary-soft);border-left:3px solid var(--primary);border-radius:8px;padding:9px 12px;margin:9px 0;font-size:13px}
+
+/* ── Mock exam ── */
+.mock-start{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px 22px;text-align:center;box-shadow:var(--shadow)}
+.mock-start .big{font-size:46px;margin-bottom:8px}
+.mock-start h2{font-size:20px;font-weight:800;margin-bottom:8px}
+.mock-start p{color:var(--muted);font-size:14px;margin-bottom:6px}
+.mock-info{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:18px 0}
+.mock-info div{background:var(--surface-2);border-radius:11px;padding:12px 8px}
+.mock-info .v{font-size:17px;font-weight:800;color:var(--primary)}
+.mock-info .l{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px}
+.bigbtn{width:100%;padding:15px;border-radius:13px;border:none;background:var(--primary);color:#fff;
+  font-family:inherit;font-weight:800;font-size:16px;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+.bigbtn:active{transform:scale(.98)}
+.bigbtn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+
+.examtop{position:sticky;top:118px;z-index:30;display:flex;align-items:center;gap:10px;background:var(--surface);
+  border:1px solid var(--border);border-radius:13px;padding:11px 15px;margin-bottom:14px;box-shadow:var(--shadow)}
+.examtop .timer{font-weight:800;font-size:17px;font-variant-numeric:tabular-nums;color:var(--primary)}
+.examtop .ti{font-size:12px;color:var(--muted);font-weight:700}
+.examtop .ti b{color:var(--text)}
+.mq{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;padding:16px;box-shadow:var(--shadow)}
+.mq .mqh{display:flex;gap:10px;margin-bottom:11px}
+.mq .mqn{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:var(--primary);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center}
+.mq .pts{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted);background:var(--surface-2);padding:3px 9px;border-radius:6px;height:fit-content}
+.mq .mqt{font-weight:700;font-size:14.5px;line-height:1.6}
+.mq textarea{width:100%;margin-top:12px;min-height:90px;padding:12px;border:1px solid var(--border);border-radius:11px;
+  background:var(--surface-2);color:var(--text);font-family:inherit;font-size:14px;resize:vertical;line-height:1.6}
+.mq textarea:focus{outline:2px solid var(--primary);border-color:transparent}
+.mq .model{margin-top:12px;display:none}
+.mq.graded .model{display:block;animation:fade .3s}
+.mq .selfgrade{display:none;gap:7px;margin-top:11px;flex-wrap:wrap;align-items:center}
+.mq.graded .selfgrade{display:flex}
+.mq .selfgrade .sgl{font-size:12.5px;font-weight:700;color:var(--muted)}
+.sgbtn{padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer}
+.sgbtn.on{background:var(--ok);color:#fff;border-color:var(--ok)}
+.sgbtn.no.on{background:#d8443b;border-color:#d8443b}
+.sgbtn.half.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.result{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;text-align:center;margin-bottom:16px;box-shadow:var(--shadow)}
+.result .score{font-size:44px;font-weight:800;color:var(--primary);letter-spacing:-.02em}
+.result .score small{font-size:20px;color:var(--muted)}
+.result p{color:var(--muted);font-size:14px;margin-top:4px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 0 8px;line-height:1.7}
+
+@media(max-width:480px){
+  .numgrid{grid-template-columns:repeat(2,1fr)}
+  .intro h1{font-size:19px}
+  .tab .ico{font-size:17px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hbar">
+    <div class="brand">
+      <b>도시개발 및 법규</b>
+      <span>2026-1학기 · 기말 총정리</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="dday" id="dday">D-?</div>
+    <button class="iconbtn" id="themeBtn" aria-label="테마 전환">🌙</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tabrow">
+    <button class="tab on" data-view="concept"><span class="ico">📒</span>개념집</button>
+    <button class="tab" data-view="past"><span class="ico">✍️</span>기출문제집</button>
+    <button class="tab" data-view="mock"><span class="ico">📝</span>실전모의고사</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <!-- 개념집 -->
+  <section class="view on" id="view-concept">
+    <div class="intro">
+      <h1>📒 핵심 개념 총정리</h1>
+      <p>5개 강의(건축법·주택법·도시의 높이·정비사업·도시개발법)에서 ⭐중요 표시된 개념과 시험 필수 숫자만 쏙쏙 골라 정리했습니다.</p>
+      <div class="meta"><span>건축법</span><span>주택법</span><span>도시의 높이</span><span>정비사업</span><span>도시개발법</span></div>
+    </div>
+    <div class="searchbar"><span class="si">🔎</span><input id="cSearch" placeholder="개념·키워드 검색 (예: 일조권, 85㎡, 환지, 청약가점)"></div>
+    <div class="chips" id="cChips"></div>
+    <div id="conceptBody"></div>
+  </section>
+
+  <!-- 기출문제집 -->
+  <section class="view" id="view-past">
+    <div class="intro">
+      <h1>✍️ 기말 예상문제 25선</h1>
+      <p>교수님 배포 예상문제 25문항 전체 + 모범답안입니다. 이 중 <b style="color:#ffe08a">7문항이 변형 출제</b>되니 답을 직접 써보며 익히세요.</p>
+    </div>
+    <div class="progwrap">
+      <div class="pt"><div>📊 학습 진도</div><div><span id="pDone">0</span> / 25</div></div>
+      <div class="bar"><i id="pBar"></i></div>
+      <div class="preset">
+        <button id="pReset">↺ 진도 초기화</button>
+        <button id="pAllAns">👁 정답 모두 보기</button>
+        <button id="pHideAns">🙈 정답 모두 숨기기</button>
+      </div>
+    </div>
+    <div class="searchbar"><span class="si">🔎</span><input id="pSearch" placeholder="문제 검색"></div>
+    <div id="pastBody"></div>
+  </section>
+
+  <!-- 실전모의고사 -->
+  <section class="view" id="view-mock">
+    <div id="mockHome">
+      <div class="mock-start">
+        <div class="big">📝</div>
+        <h2>실전 모의고사</h2>
+        <p>실제 시험 형식대로 <b>10문항(100점)</b>을 구성했습니다.</p>
+        <p style="font-size:13px">예상문제 변형 7 + 범위 전체 신규 3 · 시험 당일 아침용 🚌</p>
+        <div class="mock-info">
+          <div><div class="v">10</div><div class="l">문항</div></div>
+          <div><div class="v">100</div><div class="l">배점</div></div>
+          <div><div class="v">50분</div><div class="l">권장시간</div></div>
+        </div>
+        <button class="bigbtn" id="mockStart">🚀 모의고사 시작</button>
+        <p style="font-size:12px;margin-top:14px;margin-bottom:0">답을 채운 뒤 제출하면 모범답안과 자가채점이 나옵니다.</p>
+      </div>
+    </div>
+    <div id="mockExam" style="display:none"></div>
+  </section>
+</main>
+
+<div class="footer wrap">
+  📚 도시개발 및 법규 기말 대비 · 본 자료는 강의자료·예상문제 기반 요약본입니다<br>최종 판단은 반드시 원문(법령·강의)을 확인하세요. 좋은 결과 있길 바랍니다 💪
+</div>
+
+<script>
+/* ====================== 데이터 ====================== */
+const EXAM_DATE = "2026-06-19"; // 시험일 (수정 가능)
+
+/* ---- 개념집 ---- */
+const CHAPTERS = [
+{
+  id:"arch", icon:"🏗️", title:"건축법", sub:"11강 · 용어, 허가, 구조·높이, 일조권",
+  numbers:[
+    {v:"30층/120m↑",l:"고층건축물"},
+    {v:"50층/200m↑",l:"초고층건축물"},
+    {v:"30~49층",l:"준초고층"},
+    {v:"200㎡↑",l:"대지 조경 의무"},
+    {v:"5천㎡↑",l:"공개공지 대상"},
+    {v:"10% 이하",l:"공개공지 면적"},
+    {v:"2m 이상",l:"대지-도로 접도"},
+    {v:"9m / 1.5m",l:"일조권 기준높이"},
+    {v:"6층·2천㎡↑",l:"승강기 설치"},
+    {v:"31m 초과",l:"비상용승강기"}
+  ],
+  cards:[
+    {star:true,q:"건축·대수선·리모델링의 정의",a:`
+    <p><b>건축</b> = 건축물을 <span class="hl">신축·증축·개축·재축</span>하거나 <span class="hl">이전</span>하는 것.</p>
+    <p><b>대수선</b> = 건축물의 <span class="hl">기둥·보·내력벽·주계단</span> 등의 구조나 외부형태를 수선·변경·증설하는 것.</p>
+    <p><b>리모델링</b> = 노후화 억제·기능 향상을 위해 <b>대수선하거나 일부를 증축·개축</b>하는 행위.</p>
+    <div class="note"><b>빈칸 단골:</b> "신축·증축·개축·재축·이전 = (건축)", "기둥·보·(내력벽)·주계단 수선 = (대수선)"</div>`},
+    {star:true,q:"건축 행위 5종류 (신축·증축·개축·재축·이전)",a:`
+    <div class="tbl"><table><tr><th>종류</th><th>정의</th></tr>
+    <tr><td><b>신축</b></td><td>건축물이 <b>없는 대지</b>에 새로 축조</td></tr>
+    <tr><td><b>증축</b></td><td>기존 대지에서 건축면적·연면적·층수·높이를 <b>늘림</b></td></tr>
+    <tr><td><b>개축</b></td><td>기존 건축물 전부/일부 철거 후 <b>종전 규모와 같거나 작게</b> 다시 축조</td></tr>
+    <tr><td><b>재축</b></td><td><b>천재지변 등 재해로 멸실</b>된 경우 종전 규모 범위에서 다시 축조</td></tr>
+    <tr><td><b>이전</b></td><td>주요구조부를 해체하지 않고 <b>같은 대지 내</b> 다른 위치로 옮김</td></tr></table></div>
+    <div class="note"><b>구분 핵심:</b> 개축(내가 헐고 다시)↔재축(재해로 멸실 후 복구), 신축(빈 땅)↔증축(있는 건물 키움)</div>`},
+    {star:true,q:"고층 / 초고층 / 준초고층 건축물 기준",a:`
+    <ul>
+    <li><b>고층건축물</b> = 층수 <span class="hl">30층 이상</span> 또는 높이 <span class="hl">120m 이상</span> (건축법)</li>
+    <li><b>초고층건축물</b> = 층수 <span class="hl">50층 이상</span> 또는 높이 <span class="hl">200m 이상</span> (시행령)</li>
+    <li><b>준초고층</b> = 고층 중 초고층이 아닌 것 = <span class="hl">30~49층</span>(또는 120~200m)</li>
+    </ul>
+    <p>참고(국제): Supertall=300m↑, Megatall=600m↑, 마천루=200m↑</p>`},
+    {star:true,q:"피난안전구역 설치기준 + 49층의 비밀",a:`
+    <ul>
+    <li><b>초고층</b>(50층↑): 피난안전구역을 <span class="hl">30개 층마다 1개소 이상</span> 설치</li>
+    <li><b>준초고층</b>(30~49층): 전체 층수의 <span class="hl">1/2 층에서 상하 5개층 이내 1개소</span> 설치 (단, 계단을 넓게=계단참 1.2m↑ 설치 시 면제)</li>
+    </ul>
+    <div class="note"><b>왜 49층?</b> 50층=초고층 → 피난안전구역·강화 소방규제 의무 + 공사비 급증(50층 넘으면 <b>1.4배</b>, 타워형 철골). 규제 회피·수익 극대화 위해 한 층 낮춰 <b>49층(준초고층)</b>으로 설계.</div>`},
+    {star:true,q:"대지의 조경 (제42조) · 공개공지 (제43조)",a:`
+    <p><b>조경 의무</b>: 면적 <span class="hl">200㎡ 이상</span> 대지에 건축 시 조경 설치(지자체 조례).</p>
+    <p style="margin-left:8px;font-size:13px">서울시 조례: 연면적 2천㎡↑ → 대지 15%↑ / 1천~2천㎡ → 10%↑ / 1천㎡미만 → 5%↑ / 학교이적지 30%↑</p>
+    <p><b>공개공지</b>: 문화·집회·종교·판매·운수·업무·숙박시설로 <span class="hl">바닥면적 합계 5천㎡ 이상</span>인 건축물은 휴식시설(공터) 설치.</p>
+    <ul><li>대상지역: 일반주거·준주거·상업·준공업지역</li>
+    <li>면적: 대지면적의 <span class="hl">10% 이하</span></li>
+    <li>인센티브: 용적률·높이 완화(통상 최대 20%)</li></ul>`},
+    {star:false,q:"공개공지 vs 개방형녹지 비교",a:`
+    <div class="tbl"><table><tr><th>구분</th><th>공개공지</th><th>개방형녹지</th></tr>
+    <tr><td>근거</td><td>건축법 §43</td><td>도시정비법(서울시)</td></tr>
+    <tr><td>대상</td><td>연면적 5천㎡↑ 대형건축물</td><td>도심 재개발구역</td></tr>
+    <tr><td>면적</td><td>대지 <b>10% 이하</b></td><td>대지 <b>30% 이상</b></td></tr>
+    <tr><td>인센티브</td><td>용적률 완화 ~20%</td><td>용적률 완화 ~1000%↑</td></tr></table></div>
+    <p>예: 세운 3-2·3구역 → 기준600+허용400+상한525 = <b>용적률 1525%</b></p>`},
+    {star:true,q:"건축선·대지와 도로 (제44·46조)",a:`
+    <p><b>접도 의무</b>: 대지는 <span class="hl">2m 이상</span> 도로에 접해야(자동차전용도로 제외).</p>
+    <p><b>건축선</b>: 원칙적으로 <b>대지와 도로의 경계선</b>. 단,</p>
+    <ul>
+    <li>소요너비(4m) 미달 도로 → 중심선에서 <b>소요너비의 1/2(2m) 후퇴</b>한 선</li>
+    <li>반대쪽이 경사지·하천·철도 → 그쪽 도로경계선에서 <b>소요너비(4m) 전체 후퇴</b></li>
+    </ul>`},
+    {star:false,q:"건축허가 · 건축신고 · 시공자 제한",a:`
+    <p><b>허가권자</b>: 원칙 시장·군수·구청장. 단 <span class="hl">21층↑ 또는 10만㎡↑</span>(특·광역시) → 특별시장·광역시장.</p>
+    <p><b>건축신고</b>(허가 갈음): ① 바닥면적 합계 <b>85㎡ 이내</b> 증·개·재축 ② 관리·농림·자연환경보전지역 연면적 <b>200㎡ 미만 & 3층 미만</b> ③ 200㎡미만·3층미만 대수선 → 신고일부터 <b>1년 내</b> 미착공 시 효력 상실.</p>
+    <p><b>시공자 제한</b>(건산법): 연면적 <span class="hl">200㎡ 초과</span> 또는 공동주택·다중·다가구·공관은 반드시 <b>건설사업자</b>가 시공.</p>`},
+    {star:true,q:"건폐율·용적률 · 대지 분할제한",a:`
+    <p><b>건폐율</b> = 건축면적 / 대지면적 (국계법 §77)</p>
+    <p><b>용적률</b> = 연면적 / 대지면적 (국계법 §78)</p>
+    <p><b>대지 분할제한</b>(시행령 §80) 최소면적:</p>
+    <div class="keyrow"><span class="k">주거 60㎡</span><span class="k">상업 150㎡</span><span class="k">공업 150㎡</span><span class="k">녹지 200㎡</span><span class="k">기타 60㎡</span></div>`},
+    {star:true,q:"일조권 사선제한 (제61조) ★최빈출",a:`
+    <p><b>전용주거지역·일반주거지역</b>에서 건축물 높이는 일조 확보를 위해 <span class="hl">정북방향 인접 대지경계선</span>으로부터 거리에 따라 제한:</p>
+    <ul>
+    <li>높이 <span class="hl">9m 이하</span> 부분: 인접 대지경계선에서 <span class="hl">1.5m 이상</span> 이격</li>
+    <li>높이 <span class="hl">9m 초과</span> 부분: 인접 대지경계선에서 <span class="hl">해당 부분 높이의 1/2 이상</span> 이격</li>
+    </ul>
+    <div class="note"><b>키워드:</b> 전용·일반주거지역 / 정북방향 / 인접 대지경계선 / 9m·1.5m / 9m초과 H의 1/2. 위로 갈수록 계단식(사선) 후퇴.</div>`},
+    {star:false,q:"방화지구·방화문 / 지역 걸침 (제51·54조)",a:`
+    <p><b>방화지구</b>: 주요구조부·지붕·외벽 → <b>내화구조</b>. 지붕 위 또는 높이 3m↑ 공작물 주요부 → <b>불연재료</b>. 환기구멍 금속망 그물눈 <b>2mm 이하</b>.</p>
+    <p><b>방화문</b>: 60분+ (연기·불꽃 60분↑ & 열차단 30분↑) / 60분 / 30분(30~60분)</p>
+    <p><b>지역 걸침</b>: 원칙 <b>과반(過半)이 속하는 지역</b> 규정 적용. 단 <b>방화지구</b>에 걸치면 전부에 방화지구 규정 적용(녹지지역·방화지구는 과반규정 제외).</p>`},
+    {star:false,q:"구조내력(하중) · 승강기 · 특별건축구역",a:`
+    <p><b>하중 종류</b>: 고정하중·적재(활)하중·적설하중·풍압(풍하중)·지진(지진하중)·토압/수압. (예: 마우나리조트 붕괴=적설하중)</p>
+    <p><b>승강기</b>: <span class="hl">6층 이상 & 연면적 2천㎡ 이상</span> 설치 / 높이 <span class="hl">31m 초과</span> 시 비상용승강기 추가.</p>
+    <p><b>특별건축구역</b>: 창의적 설계 위해 건폐율·용적률·높이·일조 등 규제 완화·배제. 민간도 시·도지사에 제안 가능. (배제특례 최다=일조 §61, 57건)</p>`}
+  ]
+},
+{
+  id:"house", icon:"🏠", title:"주택법", sub:"12·13강 · 주택종류, 청약, 분양, 리모델링",
+  numbers:[
+    {v:"84점",l:"청약가점 만점"},
+    {v:"32/35/17",l:"무주택/부양/통장"},
+    {v:"85㎡",l:"국민주택규모"},
+    {v:"100㎡",l:"비수도권 읍·면"},
+    {v:"30세대↑",l:"사업계획승인"},
+    {v:"15년/30%",l:"리모델링 경과/증축"},
+    {v:"15%/3개층",l:"세대증가/수직증축"},
+    {v:"300세대미만",l:"도시형생활주택"},
+    {v:"20·20·30",l:"등록(단독·공동·도생)"},
+    {v:"80%/95%",l:"조합 사용권/소유권"}
+  ],
+  cards:[
+    {star:true,q:"건축법 vs 주택법 (목적·대상·범위)",a:`
+    <div class="tbl"><table><tr><th>구분</th><th>건축법</th><th>주택법</th></tr>
+    <tr><td><b>목적</b></td><td>건축물의 안전·기능·환경·미관 향상 → 공공복리 증진</td><td>주택 건설·공급·시장관리 → 국민 주거안정·주거수준 향상</td></tr>
+    <tr><td><b>대상</b></td><td>모든 건축물</td><td>주택(특히 공동주택)·주택단지</td></tr>
+    <tr><td><b>범위</b></td><td>개별 건축물 1동 단위</td><td>일정 규모 이상(30호/세대↑) 대량공급 사업·단지 단위</td></tr></table></div>
+    <div class="note">주택 <b>30세대(호) 이상</b> 건설 → 주택법 사업계획승인 / 그 미만 → 건축법 건축허가. 도시형생활주택은 30세대.</div>`},
+    {star:true,q:"청약가점제 (84점 만점) ★",a:`
+    <p>무주택기간+부양가족수+청약통장기간 합산 총점 높은 순 당첨.</p>
+    <div class="tbl"><table><tr><th>항목</th><th>만점</th><th>증가</th></tr>
+    <tr><td>무주택기간</td><td><b>32점</b></td><td>1년마다 2점(15년↑ 만점)</td></tr>
+    <tr><td>부양가족 수</td><td><b>35점</b></td><td>1명당 5점(6명↑ 만점)</td></tr>
+    <tr><td>청약통장 가입기간</td><td><b>17점</b></td><td>매년 1점(15년↑ 만점)</td></tr></table></div>
+    <p>합계 = 32+35+17 = <span class="hl">84점</span></p>
+    <div class="note"><b>왜 가점제?</b> 분양가규제로 분양가↓ → 수요>공급 초과수요 발생 → 더 필요한(무주택 오래·부양가족 많은) 사람에게 먼저 저렴한 주택 공급하려 순서를 매기는 시스템.</div>`},
+    {star:true,q:"주택의 종류 (단독·공동·준주택·국민주택)",a:`
+    <ul>
+    <li><b>단독주택</b>: 단독·다가구·다중주택 (소유자 1인)</li>
+    <li><b>공동주택</b>: 아파트·연립·다세대 (벽·복도·계단 공동사용, 소유자 多)</li>
+    <li><b>준주택</b>: 주거이용 가능 시설 = <span class="hl">기숙사·다중생활시설·노인복지주택·오피스텔</span></li>
+    <li><b>국민주택규모</b>: 주거전용면적 <span class="hl">1호·세대당 85㎡ 이하</span> (비수도권 도시지역 외 읍·면은 <span class="hl">100㎡ 이하</span>)</li>
+    <li><b>국민주택</b>: 국가·지자체·LH·지방공사 건설 또는 주택도시기금 지원받은 국민주택규모 이하 주택</li>
+    </ul>`},
+    {star:true,q:"면적 용어 (전용·공용·공급·계약·서비스) ★",a:`
+    <ul>
+    <li><b>전용면적(A)</b>: 방·거실·주방·화장실 (순수 내 집)</li>
+    <li><b>공용면적(B)</b>: 주거공용(B1=계단·복도·엘리베이터) + 기타공용(B2=지하층·관리사무소·노인정·주민공동시설)</li>
+    <li><b>공급(분양)면적(C)</b> = 전용(A) + 주거공용(B1)</li>
+    <li><b>계약면적(D)</b> = 공급(C) + 기타공용(B2) = A+B1+B2</li>
+    <li><b>서비스면적</b>: 발코니(베란다) → 공급·계약면적에 <b>미포함</b></li>
+    </ul>
+    <div class="note">공동주택 주거전용면적은 <b>안목치수</b>(외벽 내부선=벽 안쪽) 기준으로 산정.</div>`},
+    {star:true,q:"리모델링 (주택법) ★최빈출",a:`
+    <ul>
+    <li>사용승인일부터 <span class="hl">15년</span> 경과(조례로 15~20년)</li>
+    <li>각 세대 주거전용면적의 <span class="hl">30% 이내</span> 증축(85㎡ 미만은 40% 이내)</li>
+    <li>세대수는 기존 세대수의 <span class="hl">15% 이내</span> 증가(세대수증가형)</li>
+    <li>수직증축은 최대 <span class="hl">3개층 이내</span>(15층↑) / <b>14층 이하는 2개층</b></li>
+    </ul>
+    <div class="note"><b>빈칸:</b> "15년 경과 → 전용 (30)% 이내 증축, 세대수 (15)% 이내 증가, 수직 (3)개층 이내" · 내력벽 철거로 세대합치기 금지.</div>`},
+    {star:false,q:"리모델링 동의비율·안전진단·기본계획",a:`
+    <p><b>허가권자</b>: 시·군·구청장.</p>
+    <p><b>동의비율</b>: 단지전체 리모델링(조합) = 전체 <b>75%↑</b> + 동별 <b>50%↑</b> / 입주자대표회의 = 소유자 전원 / 입주자·관리주체 = 입주자 전체.</p>
+    <p><b>안전진단</b>: 증축형 → 시·군·구청장에 요청·실시. 수직증축 구조기준 = 국토부장관 고시. 안전성 검토 2회(1·2차).</p>
+    <p><b>리모델링 기본계획</b>: 특·광역시장·대도시 시장이 <b>10년 단위</b> 수립. 시기조정 요청=국토부장관(주거정책심의위 심의).</p>`},
+    {star:false,q:"주택건설업자 등록 · 주택조합",a:`
+    <p><b>등록 의무</b>(연간): 단독 <b>20호↑</b>, 공동 <b>20세대↑</b>, 도시형생활주택 <b>30세대↑</b>, 대지조성 <b>1만㎡↑</b>. (국가·지자체·LH·지방공사·조합은 예외)</p>
+    <p><b>주택조합 3종</b>: 지역주택조합(동일지역 무주택세대주, 6개월↑거주)·직장주택조합·리모델링주택조합.</p>
+    <p><b>조합설립</b>: 토지 사용권원 <span class="hl">80% 이상</span> 확보(이후 사업계획승인은 소유권 <span class="hl">95% 이상</span>). 조합원 20명↑ & 건설예정세대수의 1/2↑.</p>`},
+    {star:true,q:"사업계획승인 · 도시형 생활주택",a:`
+    <p><b>사업계획승인</b>: 주택 <span class="hl">30호·세대 이상</span> 또는 대지조성 <span class="hl">1만㎡ 이상</span>. (국토부장관=330만㎡↑·국가·LH / 10만㎡↑=시·도지사·대도시시장 / 10만㎡미만=시장·군수)</p>
+    <p><b>도시형 생활주택</b>: <span class="hl">300세대 미만</span>·국민주택규모, 도시지역에 건설. 종류 = 단지형 연립(660㎡초과)·단지형 다세대(660㎡이하, 둘다 4층이하)·원룸형(전용 14~50㎡, 지하층 불가). <b>분양가상한제 미적용.</b></p>`},
+    {star:false,q:"부대시설 · 복리시설 · 기반/기간/간선시설 ★",a:`
+    <p><b>부대시설</b>(주택에 딸린): <span class="hl">주차장·관리사무소·담장·주택단지 안의 도로</span>·건축설비.</p>
+    <p><b>복리시설</b>(생활복리 공동): <span class="hl">어린이놀이터·근린생활시설·유치원·주민운동시설·경로당</span>.</p>
+    <p><b>기반시설</b>(국계법 7개): 교통·공간·유통공급·공공문화체육·방재·보건위생·환경기초.</p>
+    <p><b>기간시설</b>: 도로·상하수도·전기·가스·통신·지역난방. <b>간선시설</b>: 주택단지 안 기간시설을 단지 밖 같은 종류 기간시설에 <b>연결</b>(밖과 안 연결).</p>
+    <p><b>주택단지 분리 기준</b>: 철도·고속도로·자동차전용도로 / 폭 <b>20m↑ 일반도로</b> / 폭 <b>8m↑ 도시계획예정도로</b>로 나뉘면 별개 단지.</p>`},
+    {star:true,q:"선분양 vs 후분양 · 해외 선분양",a:`
+    <p><b>선분양</b>(한국 주류): 대지소유권 확보 + <b>분양보증(HUG)</b> 후 착공과 동시 분양. 30세대↑ 보증대상. 계약금·중도금·잔금 분할납부.</p>
+    <p><b>후분양</b>: 공사 <b>60% 이상</b> 완료 후 분양.</p>
+    <p><b>해외(미국·호주)</b>: presale/Off the plan. 계약금 5~10%만, <b>중도금 없음</b>(잔금은 준공 시), 분양가 자율.</p>
+    <div class="note"><b>한국 vs 미국·호주:</b> [유사] 둘 다 준공 전 분양. [차이] 한국=중도금 분할납부·분양보증 의무·분양가상한·전매제한 등 강한 규제 / 미·호주=계약금만·전매 가능·분양가 자율.</div>`},
+    {star:true,q:"분양가상한제 · 견본주택 · 저당권 제한",a:`
+    <p><b>분양가상한제</b>: ① 공공택지 ② 주거정책심의위 지정지역. 공시항목 = 공공택지 <b>3개</b>(택지비·공사비·간접비) / 공공택지 외 <b>6개</b>(택지비·직접공사비·간접공사비·설계비·감리비·부대비). 형태=최고가격제/원가연동제.</p>
+    <p><b>견본주택</b>: 마감자재는 사업계획승인 내용대로 시공, 경계선에서 <b>3m 이상</b> 이격. 종류=모델하우스/샘플하우스(소비자용)·Mock-up(건축주용)·사이버견본주택.</p>
+    <p><b>저당권 설정 제한</b>: 입주자모집공고 승인신청일~소유권이전등기 신청가능일 후 <b>60일</b>까지 동의없이 담보·매매 금지.</p>`},
+    {star:true,q:"투기과열지구 · 조정대상지역 · 토지거래허가구역",a:`
+    <div class="tbl"><table><tr><th>구분</th><th>투기과열지구</th><th>조정대상지역</th></tr>
+    <tr><td>근거</td><td>주택법 §63</td><td>주택법 §63의2</td></tr>
+    <tr><td>기준</td><td>직전월 가격상승 현저히↑</td><td>직전 <b>3개월</b> 물가의 <b>1.3배</b> 초과</td></tr>
+    <tr><td>청약경쟁</td><td colspan="2">공통: <b>5:1 초과</b>(국민주택 <b>10:1</b>)</td></tr>
+    <tr><td>LTV</td><td>일률 40%</td><td>기본 50%</td></tr>
+    <tr><td>재당첨제한</td><td><b>10년</b></td><td><b>7년</b></td></tr></table></div>
+    <p><b>지위양도 금지</b>: 재건축=조합설립인가 후 / 재개발=관리처분계획인가 후.</p>
+    <p><b>토지거래허가구역</b>: 근거=<b>부동산거래신고법</b>(주택법 아님!). 계약 <b>전</b> 지자체장 <b>사전허가</b> 필수, 실거주·실사용만(투자 차단).</p>`}
+  ]
+},
+{
+  id:"height", icon:"🏙️", title:"도시의 높이 · 일조", sub:"6강 · 높이규제, 마천루, 천장고",
+  numbers:[
+    {v:"828m",l:"부르즈 할리파(세계1위)"},
+    {v:"555m",l:"롯데월드타워"},
+    {v:"300/600m",l:"Super/Megatall"},
+    {v:"2.1m",l:"거실 최소 천장(방화)"},
+    {v:"2.2m",l:"주택 거실·침실"},
+    {v:"4m↑",l:"200㎡↑ 문화·종교"},
+    {v:"30개층",l:"초고층 피난구역"},
+    {v:"20㎥",l:"佛 최소 거주체적"},
+    {v:"49층/150m",l:"신통기획안"},
+    {v:"70층/250m",l:"정비계획안"}
+  ],
+  cards:[
+    {star:true,q:"높이규제의 의미 (해외 사례)",a:`
+    <p><b>몽파르나스 타워</b>(파리, 210m): 경관 훼손 비판 → 완공 <b>2년 후</b> 파리 도심 <b>7층 이상 시공 전면금지</b>를 초래. (한 건물이 도시 높이정책을 바꾼 사례)</p>
+    <p><b>런던</b>: 세인트폴 성당 조망축(Viewing Corridor) 따라 건물높이를 20~50m(AOD)로 차등 규제.</p>
+    <p><b>양각(仰角) 규제</b>: 올려다본 각도. 문화재 주변 건축물 높이규제의 핵심.</p>`},
+    {star:false,q:"서울 높이규제 변천 (35층 → 유연화)",a:`
+    <p><b>고도지구</b>: 1972년 남산 성곽길 첫 지정. 서울 총 8곳(남산·북한산·구기평창·경복궁·서초법조·국회·오류·배봉산).</p>
+    <p><b>35층 규제</b>: 2030 서울도시기본계획(정량) → <b>2040 서울도시기본계획</b>에서 35층 일괄제한 <b>폐지</b>(정성·유연 가이드라인, 위원회 심의). 같은 용적률이어도 다양한 스카이라인 가능.</p>
+    <p>경관 대비: <b>신통기획안</b>=다양한 층고(최고 49층/150m) ↔ <b>정비계획안</b>=획일적 초고층(70층/250m).</p>`},
+    {star:true,q:"고층 건물 용어 · 세계 최고층",a:`
+    <div class="tbl"><table><tr><th>용어</th><th>기준</th></tr>
+    <tr><td>마천루</td><td>200m 이상</td></tr>
+    <tr><td>Tall building (CTBUH)</td><td>14층↑ 또는 50m↑</td></tr>
+    <tr><td>Supertall</td><td><b>300m 이상</b></td></tr>
+    <tr><td>Megatall</td><td><b>600m 이상</b></td></tr></table></div>
+    <p>세계 최고층: <span class="hl">부르즈 할리파(두바이) 828m·163층</span>. 국내 최고: <b>롯데월드타워 555m</b>.</p>
+    <p><b>GBC</b>(현대차, 옛 한전부지): 당초 105층·569m 단일동 → <b>54층 3개동</b>으로 변경(비용·안전). 70층↑ 건축비 30%↑, 100층↑ 추가비용.</p>`},
+    {star:true,q:"피난안전구역 (시행령 §34) ★",a:`
+    <ul>
+    <li><b>초고층</b>(50층/200m↑): 지상층부터 <span class="hl">최대 30개 층마다 1개소 이상</span></li>
+    <li><b>준초고층</b>(30~49층): 전체 층수의 <span class="hl">1/2 층에서 상하 5개층 이내 1개소 이상</span></li>
+    </ul>
+    <p>피난안전구역 = 피난·안전 위해 건축물 중간층에 두는 대피공간.</p>`},
+    {star:true,q:"천장 높이 · 층고 · 천장고",a:`
+    <div class="tbl"><table><tr><th>구분</th><th>최소 높이</th></tr>
+    <tr><td>일반 거실(방화구조규칙)</td><td><b>2.1m</b> (=영국 1848 공중위생법 7피트)</td></tr>
+    <tr><td>주택 거실·침실(주택건설기준)</td><td><b>2.2m</b> (일반보다 10cm↑)</td></tr>
+    <tr><td>200㎡↑ 문화·종교시설</td><td><b>4m 이상</b></td></tr></table></div>
+    <p><b>층고</b> = 아래층 슬라브 상부 ~ 위층 슬라브 상부 수직거리. <b>천장고</b> = 바닥~천장 높이(일반 아파트 2.3~2.4m, 시그니엘 2.75m↑, 복층 7가구 최고 7.8m).</p>
+    <p>천장 2.7m까지 10cm 높일 때마다 공사비 약 5%↑ (30cm↑면 15% 추가).</p>`},
+    {star:false,q:"체적 기준 (프랑스 사례)",a:`
+    <p>면적·높이 외에 <b>체적(부피) 기준</b> 도입 논의. 프랑스 최소 임대기준:</p>
+    <ul><li>표면적 <span class="hl">9㎡ 초과</span></li><li>천장 높이 <span class="hl">2.2m 초과</span></li><li>→ 거주공간 <span class="hl">20㎥ 이상</span></li></ul>
+    <p>복층 오피스텔 천장고 평균 4.2m(법 테두리 내 편법). "3층 층고제한"만 있으면 19m 3층 건물도 가능.</p>`}
+  ]
+},
+{
+  id:"redev", icon:"🏘️", title:"정비사업 (특강)", sub:"재개발·재건축·소규모·역세권",
+  numbers:[
+    {v:"1만㎡↑",l:"재개발/재건축 부지"},
+    {v:"200세대↑",l:"재건축 공동주택"},
+    {v:"노후 60%↑",l:"재개발 노후동수"},
+    {v:"3/4 이상",l:"재개발 조합설립동의"},
+    {v:"70%/70%",l:"재건축 단지·면적동의"},
+    {v:"수용 ↔ 매도청구",l:"재개발 ↔ 재건축"},
+    {v:"600㎡",l:"자율주택 규모"},
+    {v:"5천㎡미만",l:"소규모재개발"},
+    {v:"10만㎡·50%",l:"모아타운 지정"},
+    {v:"250~500m",l:"역세권 범위"}
+  ],
+  cards:[
+    {star:true,q:"도시정비법 변천 (3단계)",a:`
+    <p><b>1단계(~2002)</b>: 개별법 다원화 — 도시재개발법(주택·도심·공장재개발), 주택건설촉진법(재건축), 임시조치법(주거환경개선).</p>
+    <p><b>2단계(2003~2017)</b>: 「도시 및 주거환경정비법」 제정 → 6유형 세분화.</p>
+    <p><b>3단계(2018.2.9~)</b>: <span class="hl">재개발·재건축·주거환경개선 3대 유형</span>으로 통합·단순화 (재건축 단독주택 폐지). 가로주택 등은 소규모주택정비법으로 이관.</p>`},
+    {star:true,q:"정비기반시설 · 재개발 vs 재건축 구분",a:`
+    <p><b>정비기반시설</b>(§2-4): 도로·상하수도·<b>구거(도랑)</b>·공원·공용주차장·공동구·녹지·하천·공공공지·광장·소방용수·비상대피·가스·지역난방.</p>
+    <ul>
+    <li>정비기반시설 <b>양호</b> → <span class="hl">재건축</span>사업</li>
+    <li>정비기반시설 <b>불량(열악)</b> → <span class="hl">재개발</span>사업</li>
+    </ul>`},
+    {star:true,q:"재개발 vs 재건축 요건·방식 ★",a:`
+    <div class="tbl"><table><tr><th>구분</th><th>재개발</th><th>재건축</th></tr>
+    <tr><td>위치</td><td>주거지역</td><td>주거지역</td></tr>
+    <tr><td>요건①</td><td>부지 <b>1만㎡↑</b></td><td>부지 <b>1만㎡↑</b></td></tr>
+    <tr><td>요건②</td><td>노후동수 <b>60%↑</b></td><td>공동주택 <b>200세대↑</b></td></tr>
+    <tr><td>조합설립<br>동의</td><td>토지등소유자 <b>3/4↑</b> & 토지면적 <b>1/2↑</b></td><td>동별 과반 & 단지전체 <b>70%↑</b> & 토지면적 <b>70%↑</b></td></tr>
+    <tr><td>권리확보</td><td><span class="hl">수용</span></td><td><span class="hl">매도청구</span></td></tr></table></div>
+    <p>재개발 선택요건(택1): 접도율 40%↓·과소필지 40%↑·호수밀도 60호/ha↑·노후연면적 60%↑.</p>`},
+    {star:true,q:"추진위원회 vs 조합 ★",a:`
+    <ul>
+    <li>추진위는 <b>조합 구성 전</b>에 설립</li>
+    <li>조합은 사업시행자이나 <b>추진위는 시행자가 될 수 없음</b></li>
+    <li>추진위는 <b>5명</b>이면 승인신청 가능 / 조합은 <span class="hl">토지등소유자 3/4 이상 & 토지면적 1/2 이상</span> 동의로 인가신청</li>
+    </ul>
+    <div class="note">정비구역지정 동의: 토지등소유자 50%↑ & 토지면적 1/2↑. 사업시행인가: 총회 조합원 과반 찬성·직접출석 20%↑.</div>`},
+    {star:false,q:"주택정비형 vs 도시정비형 재개발",a:`
+    <ul>
+    <li><b>주택정비형</b>: 주거지역, 노후·불량 주거지의 <b>주거환경 개선</b></li>
+    <li><b>도시정비형</b>: 상업·공업지역, <b>도시기능 회복·상권 활성화</b>(도시환경 개선)</li>
+    </ul>
+    <p><b>시행주체</b>: 직접(조합 또는 토지등소유자 20인 미만 시)·공동·지정개발자·공공·대행. 도시정비형은 토지등소유자(1인) 가능.</p>`},
+    {star:true,q:"소규모주택정비사업 4종 ★",a:`
+    <p>근거: 「빈집 및 소규모주택정비특례법」(2018.2 시행).</p>
+    <div class="tbl"><table><tr><th>사업</th><th>규모</th><th>권리</th></tr>
+    <tr><td>자율주택</td><td>평균 600㎡·20세대 내외</td><td>매도청구</td></tr>
+    <tr><td>가로주택</td><td>1만㎡ 미만·20세대↑</td><td>매도청구</td></tr>
+    <tr><td>소규모재건축</td><td>1만㎡ 미만·200세대 미만</td><td>매도청구</td></tr>
+    <tr><td>소규모재개발('21.9)</td><td>350m·<b>5천㎡ 미만</b></td><td><span class="hl">수용</span></td></tr></table></div>
+    <p>동의: 가로·소규모재개발=토지등소유자 80%↑ & 면적 2/3↑ / 소규모재건축=동별 과반 & 단지 70%↑ & 면적 3/4↑.</p>`},
+    {star:false,q:"모아타운(관리지역) · 재정비촉진사업",a:`
+    <p><b>모아타운</b>: 10만㎡ 미만·노후도 50%↑ 저층주거지에 가로·자율주택 묶어 추진. 요건완화·용적률 상향·기반시설 지원. (번동 모아타운 1호)</p>
+    <p><b>재정비촉진사업</b>: 근거=「도시재정비촉진특별법」. 낙후지역 광역적 정비. 촉진지구 3유형 = <span class="hl">주거지형·중심지형·고밀복합형</span>. 용어: 촉진지구·촉진계획·촉진구역·존치지역.</p>`},
+    {star:false,q:"역세권 개발사업",a:`
+    <p>역 승강장 경계 <b>250~500m</b> 이내에서 고밀 개발하는 다양한 사업(서울시 운영지침).</p>
+    <ul>
+    <li><b>역세권 장기전세주택</b>: 1차 350m·2차 500m, 3천㎡~2만㎡, 100세대↑</li>
+    <li><b>역세권 활성화</b>: 350~500m + 노선상업지역, 1500~1만㎡</li>
+    <li><b>역세권 청년안심주택</b>: 250m 이내(간선변 20m도로 50m), 최소 1천㎡, 전용 20~60㎡</li>
+    </ul>`}
+  ]
+},
+{
+  id:"udev", icon:"🗺️", title:"도시개발법", sub:"예상문제 핵심 · 환지·수용·도시개발",
+  numbers:[
+    {v:"1만㎡",l:"주거·상업 최소"},
+    {v:"3만㎡",l:"공업 최소"},
+    {v:"30만㎡",l:"도시지역 외 최소"},
+    {v:"환지/수용·사용/혼용",l:"3대 방식"},
+    {v:"2000~",l:"도시개발법 제정"},
+    {v:"체비지",l:"사업비 충당 보류지"},
+    {v:"감보율",l:"환지 면적감소율"},
+    {v:"원형지",l:"미조성 공급토지"}
+  ],
+  cards:[
+    {star:true,q:"도시개발법·구획정리법·도시계획법 관계 ★",a:`
+    <ul>
+    <li><b>도시계획법</b>(1962~2002): 도시계획사업을 <b>수용·사용방식</b>으로 시행</li>
+    <li><b>토지구획정리사업법</b>(1966~2000): <b>환지방식</b> (도시계획법에서 분리)</li>
+    <li><b>도시개발법</b>(2000~): 구획정리법(환지)+도시계획법의 도시계획사업(수용·사용)을 <span class="hl">통합</span> → 환지·수용·사용·혼용 모두 가능</li>
+    </ul>
+    <div class="note">도시계획법에서 토지구획정리사업법이 분리됐다가, 2000년 둘을 통합해 <b>도시개발법</b>이 제정됨.</div>`},
+    {star:true,q:"도시개발 3방식 (환지·수용사용·혼용) ★",a:`
+    <ul>
+    <li><b>환지방식</b>: ① 효용증진·공공시설 정비 위해 토지 교환·분합·구획·지목 변경이 필요한 경우 ② 지가가 인근보다 현저히 높아 <b>수용이 어려운 경우</b>. 종전 토지를 정리해 다시 돌려줌.</li>
+    <li><b>수용·사용방식</b>: 계획적·체계적 <b>대규모 집단 조성·공급</b>이 필요한 경우(공영개발).</li>
+    <li><b>혼용방식</b>: 한 사업에서 일부 환지 + 일부 수용·사용을 함께 적용.</li>
+    </ul>`},
+    {star:true,q:"환지 관련 용어 (제자리·체비지·입체환지·감보율)",a:`
+    <ul>
+    <li><b>제자리 환지</b>: 종전 토지의 위치 부근에 그대로 환지를 지정</li>
+    <li><b>체비지</b>: 시행자가 <b>사업비 충당</b>을 위해 환지로 정하지 않고 보류해 <b>매각</b>하는 토지</li>
+    <li><b>입체환지</b>: 토지 대신 <b>조성 건축물의 일부와 그 대지 공유지분</b>으로 환지(평면환지의 반대)</li>
+    <li><b>유보지</b>: 환지로 정하지 않고 보류한 토지(체비지+공공용지)</li>
+    <li><b>감보율</b>: 환지 시 종전 면적보다 줄여서 돌려주는 비율. 도로·공원 등 <b>공공용지 확보(공공감보)</b>와 <b>체비지 확보(체비지감보)</b> 때문에 발생</li>
+    </ul>`},
+    {star:true,q:"도시개발구역 최소면적 ★빈칸",a:`
+    <div class="keyrow"><span class="k">주거·상업: 1만㎡</span><span class="k">공업: 3만㎡</span><span class="k">도시지역 외: 30만㎡</span></div>
+    <p>도시개발사업 절차(수용·사용방식): 구역지정 제안 → 구역지정 요청 → 구역지정 고시 → <b>사업시행자 지정</b> → <b>실시계획인가 고시</b> → 공사발주·시공 → 준공검사.</p>`},
+    {star:true,q:"기타 용어 (원형지·선수금·토지상환채권·도시개발채권)",a:`
+    <ul>
+    <li><b>원형지</b>: 도시개발구역에서 <b>조성하지 않은(자연 그대로의)</b> 상태로 공급하는 토지</li>
+    <li><b>선수금</b>: 시행자가 조성토지·원형지를 공급받을 자에게서 대금 일부를 <b>미리 받는 것</b>(사업비 조달)</li>
+    <li><b>토지상환채권</b>: 토지소유자가 원하면 현금 대신 <b>조성토지·건축물로 상환</b>하는 채권</li>
+    <li><b>도시개발채권</b>: 시·도지사가 도시개발사업 자금조달을 위해 발행하는 채권</li>
+    </ul>`},
+    {star:false,q:"3개 개발사업 근거법·사업방식 ★",a:`
+    <div class="tbl"><table><tr><th>사업</th><th>근거법</th><th>사업방식</th></tr>
+    <tr><td>도시개발사업</td><td>도시개발법</td><td>환지·수용/사용·혼용</td></tr>
+    <tr><td>택지개발사업</td><td>택지개발촉진법</td><td>수용(전면매수)</td></tr>
+    <tr><td>도시정비사업</td><td>도시 및 주거환경정비법</td><td>재개발(수용)·재건축(매도청구)·관리처분</td></tr></table></div>`},
+    {star:false,q:"도시계획 이론 (선형도시·유니버설디자인)",a:`
+    <p><b>선형도시(Linear City)</b>: 스페인 건축가 <b>Soria Y Mata</b>가 처음 제안. 브라질리아·우리나라 <b>세종시</b>에 적용. 사우디 <b>The Line</b>(106mile)에 영향.</p>
+    <p><b>유니버설 디자인</b>: 미국 건축가 <b>로널드 메이스</b>가 시작. 장애·신체차이·인종·교육수준과 무관하게 공간을 제대로 쓰게 하자는 개념. 예) 휠체어 통행 보도폭·경사로, 버스·지하철의 높이가 다른 손잡이.</p>`}
+  ]
+},
+];
+
+/* ---- 기출문제 25 (PLACEHOLDER 아래에서 채움) ---- */
+const PASTQ = [
+{n:1,topic:"건축법·주택법",star:true,q:"건축법과 주택법의 차이점을 목적·대상·범위 차원에서 설명하시오.",a:`
+  <ul>
+  <li><b>① 목적</b> — 건축법: 건축물의 대지·구조·설비 기준과 용도를 정해 안전·기능·환경·미관을 향상시켜 <b>공공복리 증진</b>. 주택법: 주택의 <b>건설·공급 및 주택시장 관리</b>로 <b>국민의 주거안정과 주거수준 향상</b>.</li>
+  <li><b>② 대상</b> — 건축법: <b>모든 건축물</b>. 주택법: <b>주택</b>(특히 공동주택)과 그 부대·복리시설, 주택단지.</li>
+  <li><b>③ 범위</b> — 건축법: 개별 <b>건축물 1동 단위</b>의 규제. 주택법: 일정 규모(<span class="hl">30호·세대 이상</span>) 이상의 <b>대량 공급 사업·단지 단위</b> 규제.</li>
+  </ul>
+  <div class="tip">한 줄 요약: 주택을 30세대(호) 이상 지으면 <b>주택법(사업계획승인)</b>, 그 미만이면 <b>건축법(건축허가)</b>로 처리.</div>`},
+{n:2,topic:"도시개발법·환지",star:true,q:"다음 용어를 설명하시오. ① 제자리 환지 ② 체비지 ③ 입체환지",a:`
+  <ul>
+  <li><b>① 제자리 환지</b>: 환지방식에서 종전 토지의 <b>위치 부근에 그대로</b> 환지를 지정하는 것(위치를 크게 옮기지 않음).</li>
+  <li><b>② 체비지</b>: 시행자가 <b>사업비를 충당</b>하기 위해 환지로 정하지 않고 보류했다가 <b>매각</b>하는 토지.</li>
+  <li><b>③ 입체환지</b>: 토지로 돌려주는 대신 사업으로 조성된 <b>건축물의 일부와 그 대지의 공유지분</b>으로 환지하는 방식(평면환지의 반대).</li>
+  </ul>`},
+{n:3,topic:"주택법·리모델링",star:true,q:"빈칸: 주택법 리모델링은 15년 경과 시 주거전용면적의 (　)% 이내 증축, 기존 세대수의 (　)% 이내 증가, 수직증축은 (　)개층 이내.",a:`
+  <p>순서대로 <span class="hl">30</span>% · <span class="hl">15</span>% · <span class="hl">3</span>개층.</p>
+  <div class="tip">보충: 전용 85㎡ 미만은 40% 이내, 14층 이하 건물은 수직증축 2개층까지. 내력벽 철거로 세대 합치기는 금지.</div>`},
+{n:4,topic:"도시이론",star:false,q:"빈칸: (　　　)이론은 스페인 건축가 Soria Y Mata가 제안, 브라질리아와 우리나라 (　　)에 적용, 사우디 The Line(106mile)에 영향.",a:`
+  <p>순서대로 <span class="hl">선형도시(Linear City)</span> · <span class="hl">세종시</span>.</p>`},
+{n:5,topic:"도시이론·디자인",star:false,q:"빈칸: (　　　)디자인은 미국 건축가 로널드 메이스가 시작. (　　　)도 지나갈 보도폭·경사로, 버스·지하철에 (　　)가 다른 손잡이 설치도 해당.",a:`
+  <p>순서대로 <span class="hl">유니버설</span> · <span class="hl">휠체어</span> · <span class="hl">높이</span>.</p>
+  <p>유니버설 디자인 = 장애 여부·신체차이·인종·교육수준과 무관하게 누구나 공간을 제대로 사용할 수 있도록 하는 설계.</p>`},
+{n:6,topic:"주택법·분양",star:true,q:"미국·호주의 선분양 제도와 우리나라 선분양제도의 유사점·차이점을 설명하시오.",a:`
+  <p><b>유사점</b>: 둘 다 건물 <b>준공 전(착공 단계)에 분양</b>하는 선분양(presale)이며, 계약금을 받고 사업을 진행한다.</p>
+  <p><b>차이점</b></p>
+  <ul>
+  <li>미국·호주: 계약금 <b>5~10%만</b> 내고 <b>중도금이 없으며</b> 잔금은 준공 시 납부, <b>분양권 전매 가능</b>, 분양가 자율(사전예약 성격).</li>
+  <li>한국: <b>계약금·중도금·잔금을 분할 납부</b>해 수분양자가 공사비를 사실상 조달하고, <b>분양보증(HUG) 의무</b>·<b>분양가상한제</b>·<b>전매제한</b> 등 규제가 강하다.</li>
+  </ul>`},
+{n:7,topic:"도시개발법·근거법",star:true,q:"도시개발사업·택지개발사업·도시정비사업의 근거법률과 각 사업에 쓸 수 있는 사업방식을 적으시오.",a:`
+  <div class="tbl"><table><tr><th>사업</th><th>근거법</th><th>사업방식</th></tr>
+  <tr><td>도시개발사업</td><td><b>도시개발법</b></td><td>환지방식 · 수용/사용방식 · 혼용방식</td></tr>
+  <tr><td>택지개발사업</td><td><b>택지개발촉진법</b></td><td>수용(전면매수)방식</td></tr>
+  <tr><td>도시정비사업</td><td><b>도시 및 주거환경정비법</b></td><td>재개발(수용)·재건축(매도청구)·주거환경개선, 관리처분방식</td></tr></table></div>`},
+{n:8,topic:"주택법·시설",star:true,q:"주택단지에 필요한 부대시설과 복리시설의 예를 각각 3개 이상 드시오.",a:`
+  <ul>
+  <li><b>부대시설</b>(주택에 딸린 시설): <span class="hl">주차장, 관리사무소, 담장, 주택단지 안의 도로</span>, 건축설비 등</li>
+  <li><b>복리시설</b>(입주자 생활복리 공동시설): <span class="hl">어린이놀이터, 근린생활시설, 유치원, 주민운동시설, 경로당</span> 등</li>
+  </ul>`},
+{n:9,topic:"도시개발법·관계",star:true,q:"도시개발법·토지구획정리사업법·도시계획법 간의 관계를 설명하시오.",a:`
+  <ul>
+  <li><b>도시계획법</b>(1962~2002): 도시계획사업을 <b>수용·사용방식</b>으로 시행.</li>
+  <li><b>토지구획정리사업법</b>(1966~2000): <b>환지방식</b>으로 정리. (도시계획법에서 분리된 법)</li>
+  <li><b>도시개발법</b>(2000~): 위 두 법, 즉 토지구획정리사업법의 <b>환지</b>와 도시계획법 도시계획사업의 <b>수용·사용</b>을 <b>통합</b>하여 제정 → 환지·수용·사용·혼용을 모두 사용 가능.</li>
+  </ul>
+  <div class="tip">정리: 도시계획법 → (분리) 토지구획정리사업법 → 2000년 둘을 <b>통합</b>해 도시개발법 제정.</div>`},
+{n:10,topic:"도시개발법·방식",star:true,q:"도시개발 시행 시 수용·사용방식과 환지방식은 어떤 경우에 사용하는지 비교 설명하시오.",a:`
+  <p><b>환지방식</b> — 다음 어느 하나일 때:</p>
+  <ul><li>대지 효용증진·공공시설 정비를 위해 토지의 교환·분합, 구획변경, 지목·형질 변경, 공공시설 설치·변경이 필요한 경우</li>
+  <li>사업지역의 <b>지가가 인근보다 현저히 높아</b> 수용·사용방식으로 시행하기 어려운 경우</li></ul>
+  <p><b>수용·사용방식</b> — 계획적·체계적인 도시개발 등 <b>집단적인 조성과 공급이 필요한 경우</b>(대규모 공영개발).</p>`},
+{n:11,topic:"도시개발법·절차",star:false,q:"수용·사용방식 도시개발사업 절차의 빈칸 A·B를 채우시오. (구역지정고시 → A → B → 공사발주·시공 → 준공검사)",a:`
+  <p>A = <span class="hl">사업시행자 지정</span>, B = <span class="hl">실시계획인가 고시</span>.</p>
+  <p>전체 순서: 구역지정 제안서 제출 → 구역지정 요청 → 구역지정 고시 → <b>사업시행자 지정</b> → <b>실시계획인가 고시</b> → 공사발주·시공 → 준공검사.</p>`},
+{n:12,topic:"도시개발법·면적",star:true,q:"도시개발구역의 최소면적: 주거·상업지역 (　), 공업지역 (　), 도시지역 외 지역 (　).",a:`
+  <p>순서대로 <span class="hl">1만㎡</span> · <span class="hl">3만㎡</span> · <span class="hl">30만㎡</span>.</p>`},
+{n:13,topic:"도시개발법·용어",star:true,q:"다음 용어의 개념을 설명하시오. A.토지상환채권 B.유보지 C.도시개발채권",a:`
+  <ul>
+  <li><b>A. 토지상환채권</b>: 토지소유자가 원하면 보상금(현금) 대신 사업으로 <b>조성된 토지·건축물로 상환</b>하기로 하고 발행하는 채권.</li>
+  <li><b>B. 유보지</b>: 환지계획에서 <b>환지로 정하지 않고 보류한 토지</b>(체비지 + 공공시설용지). 이 중 매각용이 체비지.</li>
+  <li><b>C. 도시개발채권</b>: 시·도지사가 도시개발사업 등의 <b>자금을 조달</b>하기 위해 발행하는 채권.</li>
+  </ul>`},
+{n:14,topic:"정비사업",star:true,q:"도정법상 정비사업에서 '추진위원회'와 '조합'의 차이를 2가지 이상 설명하시오.",a:`
+  <ul>
+  <li>추진위원회는 <b>조합 구성 전</b>에 설립된다.</li>
+  <li>조합은 사업시행자가 될 수 있으나, <b>추진위원회는 시행자가 될 수 없다.</b></li>
+  <li>추진위원회는 <b>5명</b>만 모이면 승인신청이 가능하지만, 조합은 <span class="hl">토지등소유자 3/4 이상 및 토지면적 1/2 이상</span>의 동의를 받아야 인가신청할 수 있다.</li>
+  </ul>`},
+{n:15,topic:"주택법·청약",star:true,q:"'청약가점제'로 분양 당첨자를 선정하는 이유를 우리나라의 분양가규제와 연결해 설명하시오.",a:`
+  <p>분양가규제로 분양가가 시세보다 낮게 묶이면 <b>수요가 공급보다 많아져 초과수요</b>가 발생한다. 따라서 한정된 저렴한 주택을 <b>더 필요하다고 판단되는 사람(무주택 기간이 길고 부양가족이 많은 사람 등)에게 먼저 공급</b>하기 위해 점수로 순서를 매기는 시스템이 청약가점제이다.</p>`},
+{n:16,topic:"건축법·일조권",star:true,q:"일조권 사선제한 개념을 용도지역·방향·대지경계선을 이용해 설명하시오.",a:`
+  <p><b>전용주거지역과 일반주거지역</b> 안에서 건축하는 건축물의 높이는 일조 확보를 위해 <b>정북방향의 인접 대지경계선</b>으로부터의 거리에 따라 일정 높이 이하로 해야 한다.</p>
+  <ul>
+  <li>높이 <span class="hl">9m 이하</span> 부분: 인접 대지경계선으로부터 <span class="hl">1.5m 이상</span> 이격</li>
+  <li>높이 <span class="hl">9m 초과</span> 부분: 인접 대지경계선으로부터 <span class="hl">해당 건축물 각 부분 높이의 1/2 이상</span> 이격</li>
+  </ul>
+  <div class="tip">키워드: 전용·일반주거지역 / 정북방향 / 인접 대지경계선 / 9m·1.5m / 초과부분 H의 1/2.</div>`},
+{n:17,topic:"주택법·리모델링",star:false,q:"빈칸: 리모델링은 공동주택을 주거전용면적의 (　)% 이내 증축, 세대수는 (　)% 이내 증가, 층수는 최대 (　)층 이내.",a:`
+  <p>순서대로 <span class="hl">30</span>% · <span class="hl">15</span>% · <span class="hl">3</span>층. (3번 문제와 동일 — 반드시 암기)</p>`},
+{n:18,topic:"주택법·면적",star:true,q:"다음 면적이 포함하는 내용을 설명하시오. 전용면적·주거공용·공급면적·계약면적",a:`
+  <ul>
+  <li><b>전용면적(A)</b>: 방, 거실, 주방, 화장실</li>
+  <li><b>공용면적(B)</b>: 주거공용(B1=계단·복도·엘리베이터) + 기타공용(B2=지하층·관리사무소·노인정·주민공동시설)</li>
+  <li><b>공급면적(C)</b> = 전용(A) + 주거공용(B1)</li>
+  <li><b>계약면적(D)</b> = 공급(C) + 기타공용(B2) = 전용(A) + 주거공용(B1) + 기타공용(B2)</li>
+  </ul>
+  <div class="tip">발코니=서비스면적으로 공급·계약면적에 포함되지 않음.</div>`},
+{n:19,topic:"도시개발법·방식",star:true,q:"도시개발법의 개발사업 3방식은 무엇이고 어떤 경우에 사용하는지 설명하시오.",a:`
+  <ul>
+  <li><b>환지방식</b>: 지가가 높아 수용이 어렵거나, 효용증진·공공시설 정비를 위해 토지 구획을 다시 정리해 돌려주는 경우.</li>
+  <li><b>수용·사용방식</b>: 계획적·체계적인 <b>대규모 집단 조성·공급</b>이 필요한 경우(공영개발).</li>
+  <li><b>혼용방식</b>: 한 사업에서 일부는 환지, 일부는 수용·사용을 <b>함께</b> 적용하는 경우.</li>
+  </ul>`},
+{n:20,topic:"도시개발법·감보",star:true,q:"감보율을 설명하고, 환지방식 도시개발사업에서 감보가 발생하는 이유를 설명하시오.",a:`
+  <p><b>감보율</b>: 환지방식에서 종전 토지면적보다 <b>줄여서 환지로 돌려주는 면적의 비율</b>.</p>
+  <p><b>발생 이유</b>: ① 도로·공원·학교 등 <b>공공시설 용지를 확보</b>하기 위해(공공감보), ② 사업비를 충당할 <b>체비지를 확보</b>하기 위해(체비지감보) 토지소유자들이 면적의 일부를 부담하기 때문이다.</p>`},
+{n:21,topic:"도시개발법·용어",star:false,q:"다음 용어를 설명하시오. 원형지 / 선수금",a:`
+  <ul>
+  <li><b>원형지</b>: 도시개발구역에서 <b>조성하지 않은(자연 그대로의)</b> 상태로 공급하는 토지. 공급받은 자가 직접 조성·개발한다.</li>
+  <li><b>선수금</b>: 시행자가 조성토지·원형지를 공급받을 자로부터 그 <b>대금의 일부를 미리 받는 것</b>(사업비 조달 목적).</li>
+  </ul>`},
+{n:22,topic:"건축법·용어",star:true,q:"빈칸: 신축·증축·개축·재축·이전을 (　)이라 하고, 기둥·보·(　)·주계단 등을 수선·변경·증설하는 것을 (　)이라 한다.",a:`
+  <p>순서대로 <span class="hl">건축</span> · <span class="hl">내력벽</span> · <span class="hl">대수선</span>.</p>`},
+{n:23,topic:"건축법·조경",star:true,q:"빈칸: 면적이 (　)㎡ 이상인 (　)에 건축하는 건축주는 조례 기준에 따라 대지에 (　)이나 그 밖의 조치를 해야 한다.",a:`
+  <p>순서대로 <span class="hl">200</span>㎡ · <span class="hl">대지</span> · <span class="hl">조경</span>.</p>`},
+{n:24,topic:"건축법·공개공지",star:true,q:"빈칸: 문화·집회·종교·(　)시설·운수·업무·숙박시설로서 바닥면적 합계 (　)㎡ 이상인 건축물은 (　)를 설치해야 한다.",a:`
+  <p>순서대로 <span class="hl">판매</span> · <span class="hl">5천</span>㎡ · <span class="hl">공개 공지</span>.</p>
+  <p>공개공지 면적은 대지면적의 10% 이하 범위에서 조례로 정함.</p>`},
+{n:25,topic:"건축법·높이",star:true,q:"고층건물과 초고층 건물의 기준을 설명하고, 실제 건축에서 50층이 아닌 49층 건물이 많은 이유를 설명하시오.",a:`
+  <p><b>기준</b></p>
+  <ul>
+  <li><b>고층건축물</b>: 층수 <b>30층 이상</b> 또는 높이 <b>120m 이상</b></li>
+  <li><b>초고층건축물</b>: 층수 <b>50층 이상</b> 또는 높이 <b>200m 이상</b></li>
+  </ul>
+  <p><b>49층이 많은 이유</b>: 50층 이상이 되면 <b>초고층</b>으로 분류되어 ① 30개 층마다 <b>피난안전구역</b> 의무 설치, ② 강화된 소방·구조·방재 규제(초고층재난관리법 등), ③ 타워형 철골구조로 <b>공사비가 급증</b>(50층 넘으면 약 1.4배)한다. 이런 규제와 비용을 피하면서 수익성을 극대화하기 위해 한 층 낮춰 <b>49층(준초고층)</b>으로 설계하는 경우가 많다.</p>`}
+];
+/*__PASTQ__*/
+
+/* ---- 모의고사 ---- */
+const MOCK = [
+{n:1,tag:"건축법·변형",points:10,q:"건축법상 '건축'에 해당하는 5가지 행위를 모두 쓰고, 그중 <u>개축과 재축</u>의 차이를 설명하시오.",a:`
+  <p><b>건축 5종</b>: 신축·증축·개축·재축·이전.</p>
+  <ul>
+  <li><b>개축</b>: 내가 기존 건축물의 전부·일부를 <b>철거</b>하고 종전 규모와 같거나 작게 다시 짓는 것.</li>
+  <li><b>재축</b>: <b>천재지변 등 재해로 멸실</b>된 경우 종전 규모 범위에서 다시 짓는 것.</li>
+  </ul>
+  <div class="tip">핵심: 개축=스스로 철거 후 재건축 / 재축=재해로 멸실 후 복구.</div>`},
+{n:2,tag:"건축법·일조권·변형",points:10,q:"일조권 사선제한이 적용되는 용도지역과 기준 방향을 쓰고, 높이 9m 이하 부분과 9m 초과 부분의 이격거리 기준을 각각 쓰시오.",a:`
+  <p>적용 용도지역: <b>전용주거지역·일반주거지역</b> / 기준 방향: <b>정북방향의 인접 대지경계선</b>.</p>
+  <ul>
+  <li>높이 <b>9m 이하</b> 부분 → 인접 대지경계선에서 <span class="hl">1.5m 이상</span> 이격</li>
+  <li>높이 <b>9m 초과</b> 부분 → 인접 대지경계선에서 <span class="hl">해당 부분 높이의 1/2 이상</span> 이격</li>
+  </ul>`},
+{n:3,tag:"건축법·높이·범위전체",points:10,q:"초고층·준초고층 건축물의 기준을 각각 쓰고, 두 경우의 <u>피난안전구역 설치기준</u> 차이를 설명하시오. (※ 예상문제 밖 강의 내용)",a:`
+  <ul>
+  <li><b>초고층</b>: 50층 이상 또는 200m 이상 → 피난안전구역을 <span class="hl">30개 층마다 1개소 이상</span> 설치.</li>
+  <li><b>준초고층</b>: 30~49층(120~200m) → 전체 층수의 <span class="hl">1/2 층에서 상하 5개층 이내 1개소</span> 설치.</li>
+  </ul>
+  <div class="tip">피난안전구역 = 화재 등 재난 시 대피하도록 중간층에 두는 안전구역. 50층 이상은 의무, 49층(준초고층)은 완화되어 49층 설계가 많음.</div>`},
+{n:4,tag:"주택법·면적·변형(계산)",points:10,q:"전용면적 60㎡, 주거공용 20㎡, 기타공용(지하주차장·관리사무소) 15㎡인 아파트의 ① 공급(분양)면적과 ② 계약면적을 계산하고, ③ 발코니가 면적에 포함되는지 답하시오.",a:`
+  <ul>
+  <li>① <b>공급면적</b> = 전용 + 주거공용 = 60 + 20 = <span class="hl">80㎡</span></li>
+  <li>② <b>계약면적</b> = 공급 + 기타공용 = 80 + 15 = <span class="hl">95㎡</span></li>
+  <li>③ 발코니는 <b>서비스면적</b>으로 공급·계약면적에 <b>포함되지 않는다.</b></li>
+  </ul>`},
+{n:5,tag:"주택법·리모델링·변형",points:10,q:"주택법상 리모델링의 ① 가능 시점(경과연수), ② 세대별 증축 한도, ③ 세대수 증가 한도, ④ 수직증축 허용 층수를 쓰시오.",a:`
+  <ul>
+  <li>① 사용승인일부터 <span class="hl">15년</span> 경과(조례로 15~20년)</li>
+  <li>② 주거전용면적의 <span class="hl">30% 이내</span>(전용 85㎡ 미만은 40% 이내)</li>
+  <li>③ 기존 세대수의 <span class="hl">15% 이내</span></li>
+  <li>④ 최대 <span class="hl">3개층 이내</span>(14층 이하는 2개층)</li>
+  </ul>`},
+{n:6,tag:"도시개발법·방식·변형",points:10,q:"도시개발사업 3방식을 쓰고, 그중 '환지방식'을 사용하는 경우 2가지를 설명하시오.",a:`
+  <p>3방식: <b>환지방식 · 수용/사용방식 · 혼용방식.</b></p>
+  <p><b>환지방식 사용 경우</b>: ① 대지 효용증진·공공시설 정비를 위해 토지의 교환·분합·구획·지목 변경 등이 필요한 경우, ② 사업지역의 <b>지가가 인근보다 현저히 높아</b> 수용·사용방식으로 시행하기 어려운 경우.</p>`},
+{n:7,tag:"정비사업·변형",points:10,q:"정비사업에서 추진위원회와 조합의 차이를 2가지 쓰고, 재개발조합과 재건축조합의 <u>조합설립 동의요건</u>을 각각 쓰시오.",a:`
+  <p><b>추진위 vs 조합</b>: ① 추진위는 조합 구성 전에 설립, ② 추진위는 시행자가 될 수 없으나 조합은 사업시행자가 됨(추진위 5명이면 승인신청, 조합은 동의요건 충족 필요).</p>
+  <ul>
+  <li><b>재개발 조합설립</b>: 토지등소유자 <span class="hl">3/4 이상</span> & 토지면적 <span class="hl">1/2 이상</span> 동의</li>
+  <li><b>재건축 조합설립</b>: 동별 과반수 & 단지전체 구분소유자 <span class="hl">70% 이상</span> & 토지면적 <span class="hl">70% 이상</span> 동의</li>
+  </ul>
+  <div class="tip">권리확보 방식도 다름: 재개발=수용 / 재건축=매도청구.</div>`},
+{n:8,tag:"주택법·규제지역·범위전체",points:10,q:"투기과열지구와 조정대상지역의 ① 근거법, ② 지정 권자 또는 심의기구, ③ LTV 차이를 비교하시오. (※ 예상문제 밖 강의 내용)",a:`
+  <div class="tbl"><table><tr><th>구분</th><th>투기과열지구</th><th>조정대상지역</th></tr>
+  <tr><td>근거</td><td>주택법 §63</td><td>주택법 §63의2</td></tr>
+  <tr><td>지정</td><td colspan="2">국토교통부장관 또는 시·도지사가 <b>주거정책심의위원회 심의</b>를 거쳐 지정</td></tr>
+  <tr><td>LTV</td><td>일률 <b>40%</b></td><td>기본 <b>50%</b></td></tr></table></div>
+  <div class="tip">공통: 청약경쟁률 5:1 초과(국민주택 10:1). 재당첨제한은 투기과열 10년·조정 7년. 참고로 토지거래허가구역은 근거법이 '부동산거래신고법'으로 다름.</div>`},
+{n:9,tag:"정비사업·소규모·범위전체",points:10,q:"소규모주택정비사업 4종류를 쓰고, 그중 다른 3개와 달리 권리확보를 '수용'으로 하는 사업이 무엇인지 쓰시오. (※ 예상문제 밖 강의 내용)",a:`
+  <p>4종류: <b>자율주택정비사업 · 가로주택정비사업 · 소규모재건축사업 · 소규모재개발사업.</b></p>
+  <p>다른 사업은 모두 <b>매도청구</b>이나, <span class="hl">소규모재개발사업('21.9 신설)</span>만 <b>수용</b>으로 권리를 확보한다.(규모: 350m·5천㎡ 미만)</p>`},
+{n:10,tag:"도시개발법·용어·변형",points:10,q:"다음 용어를 설명하시오. ① 체비지 ② 감보율 ③ 원형지",a:`
+  <ul>
+  <li><b>① 체비지</b>: 시행자가 사업비 충당을 위해 환지로 정하지 않고 보류해 매각하는 토지.</li>
+  <li><b>② 감보율</b>: 환지 시 종전 면적보다 줄여 돌려주는 비율. 공공용지 확보(공공감보)와 체비지 확보(체비지감보) 때문에 발생.</li>
+  <li><b>③ 원형지</b>: 도시개발구역에서 조성하지 않은(자연 그대로의) 상태로 공급하는 토지.</li>
+  </ul>`}
+];
+/*__MOCK__*/
+
+/* ====================== 렌더링/로직 ====================== */
+const $=(s,e=document)=>e.querySelector(s), $$=(s,e=document)=>[...e.querySelectorAll(s)];
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+const esc=s=>s.replace(/[<>"]/g,' ').replace(/\s+/g,' ').trim();
+
+/* 테마 */
+const themeBtn=$("#themeBtn");
+function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==="dark"?"☀️":"🌙";LS.set("theme",t);
+  $('meta[name=theme-color]').setAttribute("content",t==="dark"?"#0d0f16":"#4f46e5");}
+setTheme(LS.get("theme", matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"));
+themeBtn.onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+
+/* D-day */
+(function(){
+  const d=new Date(EXAM_DATE+"T00:00:00"), now=new Date(); now.setHours(0,0,0,0);
+  const diff=Math.round((d-now)/86400000);
+  $("#dday").textContent = diff>0?`D-${diff}`:diff===0?"D-DAY":`D+${-diff}`;
+})();
+
+/* 탭 */
+$$(".tab").forEach(t=>t.onclick=()=>{
+  $$(".tab").forEach(x=>x.classList.remove("on")); t.classList.add("on");
+  $$(".view").forEach(v=>v.classList.remove("on")); $("#view-"+t.dataset.view).classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ===== 개념집 ===== */
+function renderConcept(){
+  const chips=$("#cChips");
+  chips.innerHTML=`<button class="chip on" data-go="all">전체</button>`+CHAPTERS.map(c=>`<button class="chip" data-go="${c.id}">${c.icon} ${c.title}</button>`).join("");
+  const body=$("#conceptBody");
+  body.innerHTML=CHAPTERS.map(c=>`
+    <div class="chapter" id="ch-${c.id}">
+      <div class="chead"><div class="ce">${c.icon}</div><div><h2>${c.title}</h2><small>${c.sub}</small></div></div>
+      <div class="numgrid">${c.numbers.map(n=>`<div class="numcard"><div class="v">${n.v}</div><div class="l">${n.l}</div></div>`).join("")}</div>
+      ${c.cards.map(card=>`
+        <div class="card" data-txt="${esc((card.q+' '+card.a).replace(/<[^>]+>/g,' '))}">
+          <div class="cq">${card.star?'<span class="star">★</span>':'<span class="star" style="opacity:.25">★</span>'}<span class="tt">${card.q}</span><span class="ar">▼</span></div>
+          <div class="ca"><div class="ca-in">${card.a}</div></div>
+        </div>`).join("")}
+    </div>`).join("");
+  body.querySelectorAll(".cq").forEach(q=>q.onclick=()=>q.parentElement.classList.toggle("open"));
+  chips.querySelectorAll(".chip").forEach(ch=>ch.onclick=()=>{
+    chips.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); ch.classList.add("on");
+    const go=ch.dataset.go;
+    if(go==="all"){$$(".chapter").forEach(c=>c.style.display="");}
+    else{$$(".chapter").forEach(c=>c.style.display=c.id==="ch-"+go?"":"none");}
+  });
+}
+$("#cSearch").oninput=e=>{
+  const v=e.target.value.trim().toLowerCase();
+  $$("#conceptBody .card").forEach(c=>{
+    const hit=!v||c.dataset.txt.toLowerCase().includes(v);
+    c.classList.toggle("hidden",!hit);
+  });
+  $$(".chapter").forEach(ch=>{
+    const any=[...ch.querySelectorAll(".card")].some(c=>!c.classList.contains("hidden"));
+    ch.style.display=(!v||any)?"":"none";
+    if(v) ch.querySelectorAll(".card:not(.hidden)").forEach(c=>c.classList.add("open"));
+  });
+};
+
+/* ===== 기출문제집 ===== */
+const PKEY="udl_past_done";
+let pDone=LS.get(PKEY,{});
+function renderPast(){
+  const body=$("#pastBody");
+  body.innerHTML=PASTQ.map(q=>`
+    <div class="q ${pDone[q.n]?'done':''}" data-n="${q.n}" data-txt="${esc((q.q+' '+q.a+' '+q.topic).replace(/<[^>]+>/g,' '))}">
+      <div class="qh"><div class="qn">${q.n}</div><div class="qbody">
+        <div class="qtags">${q.topic.split('·').map(t=>`<span class="qtag">${t.trim()}</span>`).join("")}${q.star?'<span class="qtag hot">🔥 변형주의</span>':''}</div>
+        <div class="qtext">${q.q}</div>
+      </div></div>
+      <div class="qact">
+        <button class="btn primary toggleAns">💡 정답 보기</button>
+        <button class="btn okbtn ${pDone[q.n]?'on':''} markDone">${pDone[q.n]?'✓ 완료':'완료 체크'}</button>
+      </div>
+      <div class="ans"><div class="ans-in"><span class="alabel">✅ 모범답안</span>${q.a}</div></div>
+    </div>`).join("");
+  body.querySelectorAll(".q").forEach(q=>{
+    q.querySelector(".toggleAns").onclick=()=>{q.classList.toggle("show");
+      q.querySelector(".toggleAns").textContent=q.classList.contains("show")?"🙈 정답 숨기기":"💡 정답 보기";};
+    q.querySelector(".markDone").onclick=()=>{
+      const n=q.dataset.n; pDone[n]=!pDone[n]; LS.set(PKEY,pDone);
+      q.classList.toggle("done",pDone[n]);
+      const b=q.querySelector(".markDone"); b.classList.toggle("on",pDone[n]); b.textContent=pDone[n]?"✓ 완료":"완료 체크";
+      updateProg();
+    };
+  });
+  updateProg();
+}
+function updateProg(){
+  const n=Object.values(pDone).filter(Boolean).length;
+  $("#pDone").textContent=n; $("#pBar").style.width=(n/PASTQ.length*100)+"%";
+}
+$("#pReset").onclick=()=>{if(confirm("학습 진도를 초기화할까요?")){pDone={};LS.set(PKEY,pDone);renderPast();}};
+$("#pAllAns").onclick=()=>$$("#pastBody .q").forEach(q=>{q.classList.add("show");q.querySelector(".toggleAns").textContent="🙈 정답 숨기기";});
+$("#pHideAns").onclick=()=>$$("#pastBody .q").forEach(q=>{q.classList.remove("show");q.querySelector(".toggleAns").textContent="💡 정답 보기";});
+$("#pSearch").oninput=e=>{const v=e.target.value.trim().toLowerCase();
+  $$("#pastBody .q").forEach(q=>q.classList.toggle("hidden",v&&!q.dataset.txt.toLowerCase().includes(v)));};
+
+/* ===== 모의고사 ===== */
+let timerInt=null, startTs=0;
+$("#mockStart").onclick=startMock;
+function startMock(){
+  $("#mockHome").style.display="none";
+  const ex=$("#mockExam"); ex.style.display="block";
+  ex.innerHTML=`
+    <div class="examtop">
+      <span class="timer" id="timer">00:00</span>
+      <span class="ti">권장 <b>50분</b> · 총 <b>${MOCK.reduce((a,b)=>a+b.points,0)}점</b></span>
+      <button class="btn primary" id="submitMock" style="margin-left:auto">제출·채점</button>
+    </div>
+    <div id="mockList">${MOCK.map(m=>`
+      <div class="mq" data-n="${m.n}" data-pts="${m.points}">
+        <div class="mqh"><div class="mqn">${m.n}</div><div style="flex:1">
+          <div class="qtags" style="margin-bottom:4px">${m.tag.split('·').map(t=>`<span class="qtag">${t.trim()}</span>`).join("")}</div>
+        </div><span class="pts">${m.points}점</span></div>
+        <div class="mqt">${m.q}</div>
+        <textarea placeholder="여기에 답을 적어보세요 (키워드만이라도)"></textarea>
+        <div class="model"><div class="ans-in" style="margin:12px 0 0"><span class="alabel">✅ 모범답안</span>${m.a}</div></div>
+        <div class="selfgrade"><span class="sgl">자가채점:</span>
+          <button class="sgbtn yes" data-g="1">⭕ 맞음(${m.points})</button>
+          <button class="sgbtn half" data-g=".5">△ 부분(${Math.round(m.points/2)})</button>
+          <button class="sgbtn no" data-g="0">❌ 틀림(0)</button>
+        </div>
+      </div>`).join("")}
+    </div>
+    <button class="bigbtn ghost" id="submitMock2" style="margin-top:6px">제출하고 채점하기</button>
+    <button class="bigbtn ghost" id="restartMock" style="margin-top:10px">↺ 다시 풀기 / 홈으로</button>`;
+  startTs=Date.now();
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{const s=Math.floor((Date.now()-startTs)/1000);
+    $("#timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");},1000);
+  $("#submitMock").onclick=gradeMock; $("#submitMock2").onclick=gradeMock;
+  $("#restartMock").onclick=()=>{clearInterval(timerInt);$("#mockExam").style.display="none";$("#mockHome").style.display="block";window.scrollTo({top:0,behavior:"smooth"});};
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function gradeMock(){
+  clearInterval(timerInt);
+  $$("#mockList .mq").forEach(mq=>{
+    mq.classList.add("graded");
+    mq.querySelectorAll(".sgbtn").forEach(b=>b.onclick=()=>{
+      mq.querySelectorAll(".sgbtn").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+      mq.dataset.got=(parseFloat(b.dataset.g)*parseInt(mq.dataset.pts));
+      calcScore();
+    });
+  });
+  // 결과 박스
+  if(!$("#resultBox")){
+    const r=document.createElement("div"); r.className="result"; r.id="resultBox";
+    r.innerHTML=`<div class="score"><span id="myScore">0</span><small>/100점</small></div>
+      <p>각 문제의 ⭕△❌를 눌러 자가채점하면 점수가 합산됩니다.</p>
+      <p id="timeUsed" style="font-size:13px"></p>`;
+    $("#mockExam").insertBefore(r, $("#mockList"));
+    const s=Math.floor((Date.now()-startTs)/1000);
+    $("#timeUsed").textContent=`⏱ 소요시간 ${Math.floor(s/60)}분 ${s%60}초`;
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function calcScore(){
+  let sum=0; $$("#mockList .mq").forEach(mq=>sum+=parseFloat(mq.dataset.got||0));
+  $("#myScore").textContent=Math.round(sum);
+}
+
+/* init */
+renderConcept(); renderPast();
+</script>
+</body>
+</html>
